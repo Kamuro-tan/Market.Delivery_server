@@ -5,7 +5,6 @@ const router = new Router()
 const authController = require('../../controllers/auth-controller')
 
 
-
 router.post('/registrationOTP',
 [
     check('name',               "Field {name} have invalid value!").notEmpty(),
@@ -16,14 +15,11 @@ router.post('/registrationOTP',
 ],
 authController.registrationOTP)
 
-
 router.post('/loginOTP',
 [
     check('phone',              "Field {phone} have invalid value!").isMobilePhone(),
 ],
 authController.loginOTP)
-
-
 
 router.post('/registration',
 [
@@ -37,7 +33,6 @@ router.post('/registration',
 ],
 authController.registration)
 
-
 router.post('/login',
 [
     check('phone',              "Field {phone} have invalid value!").isMobilePhone(),
@@ -45,9 +40,6 @@ router.post('/login',
     check('security_code',      "Field {security_code} have invalid value!").notEmpty(),
 ],
 authController.login)
-
-
-
 
 
 module.exports = router

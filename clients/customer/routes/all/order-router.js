@@ -13,7 +13,4 @@ router.get('/history',  authMiddleware.strictAuth('customer'),  orderController.
 router.get('/products',  authMiddleware.strictAuth('customer'),  orderController.getPlacedOrderProductList)
 
 
-
-
-
 module.exports = router

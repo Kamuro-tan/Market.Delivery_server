@@ -6,9 +6,7 @@ const authMiddleware = require('../../../../middlewares/auth-middleware')
 const userController = require('../../controllers/user-controller')
 
 
-
 router.get('/profile',  authMiddleware.strictAuth('customer'),  userController.profile)
-
 
 router.post('/edit',
 authMiddleware.strictAuth('customer'),
@@ -22,10 +20,7 @@ authMiddleware.strictAuth('customer'),
 ],
 userController.edit)
 
-
 router.get('/logout',  authMiddleware.strictAuth('customer'),  userController.logout)
-
-
 
 
 module.exports = router

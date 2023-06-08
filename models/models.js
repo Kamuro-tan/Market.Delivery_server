@@ -16,18 +16,6 @@ const Type = sequelize.define('main_product_type', {
 })
 
 
-const Ingredient = sequelize.define('main_product_ingredient', {
-    ID:                     {type: DataTypes.BIGINT,            primaryKey: true,   autoIncrement: true},
-    name:                   {type: DataTypes.STRING,            unique: true,       allowNull: false},
-})
-
-
-const ProductIngredient = sequelize.define('main_product_ingredients_list', {
-    product_ID:             {type: DataTypes.BIGINT,            primaryKey: true},
-    ingredient_ID:          {type: DataTypes.BIGINT,            primaryKey: true},
-})
-
-
 const Product = sequelize.define('main_product', {
     ID:                     {type: DataTypes.BIGINT,            primaryKey: true,   autoIncrement: true},
     name:                   {type: DataTypes.STRING,            unique: true,       allowNull: false},
@@ -70,7 +58,6 @@ const EmployeeAccount = sequelize.define('main_employee_account', {
     is_active:              {type: DataTypes.BOOLEAN,                               allowNull: false,       defaultValue: true},
     username:               {type: DataTypes.STRING,            unique: true,       allowNull: false},
     password:               {type: DataTypes.STRING,                                allowNull: false},
-    rating:                 {type: DataTypes.DECIMAL},
 })
 
 
@@ -102,19 +89,11 @@ const Customer = sequelize.define('main_customer', {
 const CustomerAccount = sequelize.define('main_customer_account', {
     customer_ID:            {type: DataTypes.BIGINT,            primaryKey: true},
     is_active:              {type: DataTypes.BOOLEAN,                               allowNull: false,       defaultValue: true},
-    rating:                 {type: DataTypes.DECIMAL},
 })
 
 const Favorite = sequelize.define('main_customer_favorite', {
     customer_ID:            {type: DataTypes.BIGINT,            primaryKey: true},
     product_ID:             {type: DataTypes.BIGINT,            primaryKey: true},
-})
-
-const CustomerReview = sequelize.define('main_customer_review', {
-    order_ID:               {type: DataTypes.BIGINT,            primaryKey: true},
-    delivery_review:        {type: DataTypes.INTEGER,                               allowNull: false},
-    package_review:         {type: DataTypes.INTEGER,                               allowNull: false},
-    comment:                {type: DataTypes.TEXT},
 })
 
 
@@ -195,36 +174,6 @@ OrderProduct.belongsTo(Product, {
 })
 
 
-/*    ________________________________    PRODUCT_INGREDIENT    ________________________________    */
-//  Many-to-Many (M 0- : -0 M) between Category and Type
-// Product.belongsToMany(Ingredient, {through: ProductIngredient, foreignKey: 'product_ID'})
-// Ingredient.belongsToMany(Product, {through: ProductIngredient, foreignKey: 'ingredient_ID'})
-
-//  One-to-Many (1 -- : -0 M) between CustomerAccount and Favorite
-Product.hasMany(ProductIngredient, {
-    foreignKey: 'product_ID',
-})
-ProductIngredient.belongsTo(Product, {
-    source: 'product_ID',
-    foreignKey: {
-        name: 'product_ID',
-        allowNull: false,
-    }
-})
-
-//  One-to-Many (1 -- : -0 M) between Product and Favorite
-Ingredient.hasMany(ProductIngredient, {
-    foreignKey: 'ingredient_ID',
-})
-ProductIngredient.belongsTo(Ingredient, {
-    source: 'ingredient_ID',
-    foreignKey: {
-        name: 'ingredient_ID',
-        allowNull: false,
-    }
-})
-
-
 
 
 /*    ________________________________    STORE STRUCTURE    ________________________________    */
@@ -293,18 +242,6 @@ CustomerAccount.belongsTo(Customer, {
         name: 'customer_ID',
         allowNull: false,
     },
-})
-
-
-//  One-to-Many (1 -- : -0 M) between CustomerAccount and CustomerReview
-CustomerAccount.hasMany(CustomerReview, {
-    foreignKey: 'customer_ID',
-})
-CustomerReview.belongsTo(CustomerAccount, {
-    foreignKey: {
-        name: 'customer_ID',
-        allowNull: false,
-    }
 })
 
 
@@ -394,27 +331,12 @@ Order.belongsTo(CustomerAccount, {
 })
 
 
-//  One-to-One (1 -- : -0 1) between Order and CustomerReview
-Order.hasOne(CustomerReview, {
-    foreignKey: 'order_ID',
-})
-CustomerReview.belongsTo(Order, {
-    source: 'order_ID',
-    foreignKey: {
-        name: 'order_ID',
-        allowNull: false,
-    },
-})
-
-
 
 
 
 module.exports = {
     Category,
     Type,
-    Ingredient,
-    ProductIngredient,
     Product,
     OrderProduct,
     Store,
@@ -423,7 +345,6 @@ module.exports = {
     Customer,
     CustomerAccount,
     Favorite,
-    CustomerReview,
     Order,
     Phase,
     PhoneVerify,

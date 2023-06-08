@@ -259,7 +259,4 @@ function getOrderDurationAndPrice(distance_to_store, products_full_price, produc
 }
 
 
-
-
-
 module.exports = new CartService()

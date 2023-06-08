@@ -103,15 +103,6 @@ class ProductService {
                 },
                 where: {type_ID},
             })
-            // .then((objs) => {
-            //     objs.forEach((obj) => {
-            //         // console.log(obj.getDataValue('ID'))
-            //         // obj.setDataValue('image', obj.getDataValue('new_product.png'))
-            //         obj.setDataValue('image', 'new_product.png')
-            //     })
-
-            //     return objs
-            // })
         }
 
         return type_products
@@ -159,7 +150,7 @@ class ProductService {
                     include: [[Sequelize.literal('exists(select * from "main_customer_favorite" as F where F."product_ID" = "main_product"."ID"  and F."customer_ID" = ' + customer_ID + ')'), 'favorite']],
                     exclude: ['cost', 'shelf_life', 'storage_conditions', 'type_ID'],
                 },
-                where: {name: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('name')), 'LIKE', '%' + input + '%')},
+                where: {name: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('name')), 'LIKE', '%' + input.toLowerCase() + '%')},
             })
 
         } else {
@@ -227,12 +218,7 @@ class ProductService {
         return favorite
     }
 
-
-
-
-
 }
-
 
 
 module.exports = new ProductService()

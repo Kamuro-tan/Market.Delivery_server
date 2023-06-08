@@ -34,7 +34,4 @@ authMiddleware.strictAuth('customer'),
 cartController.placeOrder)
 
 
-
-
-
 module.exports = router
